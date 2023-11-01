@@ -138,3 +138,16 @@ class Session:
 
     def _call_function(self, function_name: str, args: dict):
         return self.namespace.call_function(function_name, args)
+
+
+class GPT_Session_Handler:
+    """
+    Singleton class to handle ChatSession object
+    """
+    _gpt_session = None
+
+    @classmethod
+    def get_instance(cls, *args, **kwargs):
+        if cls._gpt_session is None:
+            cls._gpt_session = Session(*args, **kwargs)
+        return cls._gpt_session
