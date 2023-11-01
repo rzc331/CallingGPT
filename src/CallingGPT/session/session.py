@@ -3,7 +3,6 @@ import logging
 
 import openai
 
-from interface import prompt_text
 from utils.utils import print_gpt_process
 from ..entities.namespace import Namespace
 
@@ -15,13 +14,19 @@ class Session:
 
     model: str = "gpt-3.5-turbo-0613"
 
-    def __init__(self, modules: list, model: str = "gpt-3.5-turbo-16k", **kwargs):
+    def __init__(
+            self,
+            modules: list,
+            model: str = "gpt-3.5-turbo-16k",
+            system_prompt: str = "",
+            **kwargs
+    ):
         self.namespace = Namespace(modules)
         self.model = model
         self.messages.append(
             {
                 "role": "system",
-                "content": prompt_text.system_prompt
+                "content": system_prompt
             }
         )
         self.resp_log = []
