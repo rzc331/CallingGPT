@@ -11,7 +11,7 @@ from ..entities.namespace import Namespace
 class Session:
     namespace: Namespace = None
 
-    messages: list[dict] = []
+    messages: list = []
 
     model: str = "gpt-4-1106-preview"
 
@@ -39,8 +39,13 @@ class Session:
             **kwargs
         }
         if len(self.namespace.functions_list) > 0:
-            self.args['functions'] = self.namespace.functions_list
-            self.args['function_call'] = "auto"
+            self.args['tools'] = []
+            for function_tool in self.namespace.functions_list:
+                self.args['tools'].append({
+                    "type": "function",
+                    "function": function_tool,
+                })
+            self.args['tool_choice'] = "auto"
 
     def ask(self, msg: str, fc_chain: bool = True) -> str:
         self.messages.append(
@@ -59,9 +64,9 @@ class Session:
 
         logging.debug("Response: {}".format(resp))
         reply_msg = resp.choices[0].message
+        self.messages.append(reply_msg)
 
         if fc_chain:
-            # while 'function_call' in reply_msg:
             while reply_msg.tool_calls and any([tc.type == 'function' for tc in reply_msg.tool_calls]):
                 resp = self.fc_chain(reply_msg.tool_calls)
                 reply_msg = resp.choices[0].message
@@ -143,6 +148,7 @@ class Session:
         resp = self.client.chat.completions.create(
             **self.args
         )
+        self.messages.append(resp.choices[0].message)
         self.resp_log.append(resp)
 
         return resp
