@@ -128,7 +128,7 @@ class Session:
         for fc_cmd in fc_cmd_list:
             if fc_cmd.type == 'function':
                 content = (f"function name:\n"
-                           f"{fc_cmd.function.name}\n\n)"
+                           f"{fc_cmd.function.name}\n\n"
                            f"args:\n"
                            f"{fc_cmd.function.arguments}")
                 self.print_gpt_process(content, 'func_called')
