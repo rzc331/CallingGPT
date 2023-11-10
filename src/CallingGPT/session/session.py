@@ -164,8 +164,7 @@ class Session:
             'func_completed': 'FUNCTION COMPLETED',
         }
         print(f"****{mapping[gpt_process]}****\n\n"
-              f"{content}\n\n"
-              f"-----------------------\n")
+              f"{content}\n\n\n")
 
 
 class GPT_Session_Handler:
