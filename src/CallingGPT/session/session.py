@@ -163,7 +163,7 @@ class Session:
             'func_called': 'FUNCTION CALLED',
             'func_completed': 'FUNCTION COMPLETED',
         }
-        print(f"\n****{mapping[gpt_process]}****\n\n"
+        print(f"****{mapping[gpt_process]}****\n\n"
               f"{content}\n\n"
               f"-----------------------\n")
 
